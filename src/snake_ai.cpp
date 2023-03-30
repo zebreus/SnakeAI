@@ -41,14 +41,14 @@ void SnakeAI::RenderStatistics()
 {
     ImGui::Begin("Statistics");
         if (simulation.population)
-            ImGui::Text(("Generation: "        + std::to_string(simulation.population->GetGeneration())).c_str());
+            ImGui::Text("Generation: %s" ,(       std::to_string(simulation.population->GetGeneration())).c_str());
 
-        ImGui::Text(("Best fitness: "      + std::to_string(statistics.bestFitness)).c_str());
-        ImGui::Text(("Best score: "        + std::to_string(statistics.bestScore)).c_str());
-        ImGui::Text(("Best fitness pop.: " + std::to_string(statistics.bestFitnessOfPopulation)).c_str());
-        ImGui::Text(("Best score pop.: "   + std::to_string(statistics.bestScoreOfPopulation)).c_str());
-        ImGui::Text(("Av. fitness: "       + std::to_string(statistics.averageFitness)).c_str());
-        ImGui::Text(("Av. score: "         + std::to_string(statistics.averageScore)).c_str());
+        ImGui::Text("Best fitness: %s",(      std::to_string(statistics.bestFitness)).c_str());
+        ImGui::Text("Best score: %s",(           std::to_string(statistics.bestScore)).c_str());
+        ImGui::Text("Best fitness pop.: %s",(    std::to_string(statistics.bestFitnessOfPopulation)).c_str());
+        ImGui::Text("Best score pop.: %s",(      std::to_string(statistics.bestScoreOfPopulation)).c_str());
+        ImGui::Text("Av. fitness: %s",(          std::to_string(statistics.averageFitness)).c_str());
+        ImGui::Text("Av. score: %s ", (std::to_string(statistics.averageScore)).c_str());
     ImGui::End();
 }
 
@@ -186,6 +186,14 @@ void SnakeAI::RenderGames()
 
 void SnakeAI::Update()
 {
+    if (!simulation.population)
+        return;
+
+    UpdatePopulation();
+}
+
+void SnakeAI::Render()
+{
     RenderSimulationSettings();
     RenderStatistics();
     RenderVisualSettings();
@@ -193,7 +201,5 @@ void SnakeAI::Update()
 
     if (!simulation.population)
         return;
-
-    UpdatePopulation();
     RenderGames();
 }

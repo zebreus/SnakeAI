@@ -14,6 +14,11 @@ public:
     SnakeAI(Window& window);
 
     void Update();
+    void Render();
+    struct {
+        float speed { 4.0f };
+        bool forceFullSpeed { true };
+    } settings;
 
 private:
     Window& window;
@@ -31,10 +36,6 @@ private:
 
     void RenderStatistics();
 
-    struct {
-        float speed { 4.0f };
-        bool forceFullSpeed { true };
-    } settings;
 
     void RenderSettings();
 
