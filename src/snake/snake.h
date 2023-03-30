@@ -10,7 +10,7 @@
 #include "ai/genetic/genome.h"
 
 #define FEEDBACK_SIZE 8
-#define CORE_SIZE 64
+#define CORE_SIZE 32
 
 struct GameStatistics
 {
@@ -60,7 +60,7 @@ private:
     Apple apple;    
     bool alive { true };
     int age { 0 };
-    int maxAmountOfMoves { FIELD_SIZE + 1 };
+    int maxAmountOfMoves { FIELD_SIZE * 2 };
     int movesLeft { maxAmountOfMoves };
     int amountOfTurns { 0 };
     float score {0};

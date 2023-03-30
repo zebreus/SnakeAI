@@ -1,7 +1,7 @@
 #include "snake.h"
 
-
-Snake::Snake(Cell head) : Genome({ 16 + FEEDBACK_SIZE, CORE_SIZE, CORE_SIZE, CORE_SIZE, 1 + FEEDBACK_SIZE }), cells { { head } }
+Snake::Snake(Cell head) : Genome({ 16 + FEEDBACK_SIZE, (16 + FEEDBACK_SIZE) * 2, (16 + FEEDBACK_SIZE) * 3, (16 + FEEDBACK_SIZE) * 1, 1 + FEEDBACK_SIZE }), cells { { head } }
+// Snake::Snake(Cell head) : Genome({ 16 + FEEDBACK_SIZE + FIELD_SIZE*FIELD_SIZE, (16 + FEEDBACK_SIZE + FIELD_SIZE), (16 + FEEDBACK_SIZE), 1 + FEEDBACK_SIZE }), cells { { head } }
 {
     static int ids { 0 };
     id = ids++;
@@ -79,6 +79,20 @@ void Snake::Decide()
     int distanceForwardToApple;
     int distanceSidewaysToApple;
 
+    std::vector<float> encodedField;
+    
+      for(int x = 0; x < FIELD_SIZE; x++){
+            for(int y = 0; y < FIELD_SIZE; y++){
+                encodedField.push_back(0);        
+            }
+        }
+
+        
+                for (const auto& snakeCell : cells)
+                {
+                    int coord = snakeCell.x + snakeCell.y * FIELD_SIZE;
+                    encodedField[coord] = 1;
+                }
 
 
     switch (this->direction)
@@ -157,10 +171,11 @@ void Snake::Decide()
         static_cast<float>(cells.size()) / static_cast<float>(FIELD_SIZE * FIELD_SIZE),
         static_cast<float>(age) / static_cast<float>(FIELD_SIZE * FIELD_SIZE * FIELD_SIZE),
         static_cast<float>(GetFitness()) / static_cast<float>(cells.size()),
-        static_cast<float>((maxAmountOfMoves) - movesLeft) / static_cast<float>(maxAmountOfMoves),
+        static_cast<float>(movesLeft) / static_cast<float>(maxAmountOfMoves),
     };
 
     input.insert(input.end(), std::begin(feedback), std::end(feedback));
+    // input.insert(input.end(), std::begin(encodedField), std::end(encodedField));
 
     auto result = neuralNetwork.Feed(input);
 
@@ -213,12 +228,12 @@ void Snake::IfEatingApple()
     {
      
 
-        float scoreForThis = (maxAmountOfMoves - movesLeft) / (float)maxAmountOfMoves;
+        float scoreForThis = 1.0 - ((maxAmountOfMoves - movesLeft) / (float)maxAmountOfMoves);
         // score += 1;
         score += scoreForThis;
 
         AddTail();
-        maxAmountOfMoves +=1;
+        maxAmountOfMoves += 1; // 0.5 extra
         if(cells.size() > FIELD_SIZE * FIELD_SIZE - 2){
         //   alive = false;
         }
@@ -246,7 +261,7 @@ void Snake::IfEatingApple()
         this->apple =  Apple(possibleCells[randomIndex]);
 
         
-        movesLeft = cells.size() + FIELD_SIZE;
+        movesLeft = maxAmountOfMoves;
     }
 }
 
@@ -254,6 +269,7 @@ void Snake::MoveHead()
 {
     GetHead().x += moves[direction].x;
     GetHead().y += moves[direction].y;
+    movesLeft -= 1;
 }
 
 void Snake::SaveLastPositionOfCells()
@@ -399,6 +415,7 @@ std::array<float, 4> Snake::DistanceToTail()
     return result;
 }
 
+
 void Snake::Clamp()
 {
     if (EatsItself())
@@ -453,7 +470,6 @@ void Snake::SetDirection(Direction newDirection)
 {
     direction = newDirection;
     amountOfTurns += 1;
-    movesLeft -= 1;
 }
 
 void Snake::Control(bool up, bool left, bool down, bool right)

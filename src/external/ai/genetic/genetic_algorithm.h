@@ -12,8 +12,8 @@ struct MutationRate
  */
 struct MutationTendency
 {
-    MutationRate biasMutationRate   {  0.1f, 0.15f };
-    MutationRate weightMutationRate { 0.02f, 0.15f };
+    MutationRate biasMutationRate   {  0.2f, 0.2f };
+    MutationRate weightMutationRate { 0.04f, 0.2f };
 };
 
 /**
