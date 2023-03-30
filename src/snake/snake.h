@@ -2,6 +2,8 @@
 
 #include "cell.h"
 #include "field.h"
+#include <algorithm>
+#include <cstring>
 #include "apple.h"
 
 #include "ai/genetic/genome.h"

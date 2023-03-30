@@ -3,6 +3,7 @@
 #include <bitset>
 #include <climits>
 #include <cmath>
+#include <cstring>
 
 using float_bits_t = std::bitset<sizeof(float) * CHAR_BIT>;
 

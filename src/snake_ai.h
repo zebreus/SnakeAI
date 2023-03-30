@@ -2,6 +2,7 @@
 
 #include "snake/field.h"
 #include "snake/snake.h"
+#include <algorithm>
 
 #include "window/window.h"
 
@@ -41,7 +42,7 @@ private:
         int border { 10 };
         int cellSize { 18 };
         int padding { 2 };
-        bool geneticSnakeColor { false };
+        bool geneticSnakeColor { true };
     } visual;
 
     void RenderVisualSettings();

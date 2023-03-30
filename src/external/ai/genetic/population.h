@@ -2,6 +2,7 @@
 
 #include "../common.h"
 #include "genetic_algorithm.h"
+#include "genome.h"
 
 template <typename T>
 class Population
