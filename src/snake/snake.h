@@ -4,9 +4,13 @@
 #include "field.h"
 #include <algorithm>
 #include <cstring>
+#include <cmath>
 #include "apple.h"
 
 #include "ai/genetic/genome.h"
+
+#define FEEDBACK_SIZE 8
+#define CORE_SIZE 64
 
 struct GameStatistics
 {
@@ -56,9 +60,12 @@ private:
     Apple apple;    
     bool alive { true };
     int age { 0 };
-    int maxAmountOfMoves { 50 };
+    int maxAmountOfMoves { FIELD_SIZE + 1 };
     int movesLeft { maxAmountOfMoves };
     int amountOfTurns { 0 };
+    float score {0};
+    bool leftRightBias[50] {false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,false,true,};
+    float feedback[FEEDBACK_SIZE];
 
     int GetDistanceToUpWall();
     int GetDistanceToLeftWall();

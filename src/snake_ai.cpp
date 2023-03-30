@@ -114,10 +114,14 @@ void SnakeAI::RenderGames()
 
     field.Clear();
 
-    for (auto& game : simulation.population->GetGenomes())
-    {
+    int count = 5;
+    for (auto& game : simulation.population->GetGenomes()) {
         if (game->IsAlive())
         {
+            count--;
+            if (count == 0) {
+                break;
+            }
             game->Draw(field);
             game->GetApple().Draw(field);
         }
